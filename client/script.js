@@ -25,7 +25,6 @@ const app = new Vue({
 
         onMessage(event) {
             const { type, data } = JSON.parse(event.data);
-            console.log(type, data);
             if (type === 'teams') {
                 for (const team of data) {
                     const existing = this.teams.find((t) => t.id === team.id);

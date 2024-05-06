@@ -1,5 +1,5 @@
 import { readFile, writeFile } from 'fs/promises';
-import { WebSocketServer } from 'ws';
+import { WebSocket, WebSocketServer } from 'ws';
 
 // Read the teams data
 let teams;
@@ -54,6 +54,7 @@ try {
 const wss = new WebSocketServer({ port: 8080 });
 
 function broadcast(type, data) {
+    console.log('[INFO] Broadcasting message:', type);
     wss.clients.forEach((client) => {
         if (client.readyState === WebSocket.OPEN) {
             client.send(JSON.stringify({ type, data }));
@@ -66,12 +67,14 @@ wss.on('connection', function (ws) {
 
     ws.on('message', function (message) {
         const { type, data } = JSON.parse(message);
+        console.log('[INFO] Received message:', type)
 
-        if (type === 'teams.score') {
+        if (type === 'teams.score.adjust') {
             const team = teams.find((team) => team.id === data.id);
             if (!team) return;
 
-            team.score += data.score;
+            team.score += data.amount;
+            if (team.score < 0) team.score = 0;
             broadcast('teams', teams);
             saveTeams();
         }

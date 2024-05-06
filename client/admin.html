@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Ontmoeting Scoreboard Admin</title>
+        <link rel="icon" href="data:," />
+        <script src="./vue.min.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <h1>Ontmoeting Scoreboard Admin</h1>
+
+            <ul>
+                <li v-for="team in teams" :key="team.id">
+                    <span style="display: inline-block; width: 20vw">
+                        <b>{{ team.name }}</b>:
+                        <code>{{ team.score.toString().padStart(6, '0') }}</code>
+                    </span>
+
+                    <input type="number" v-model="team.score_adjust" placeholder="Adjust amount" />
+                    <button @click="adjustScore(team, parseInt(team.score_adjust))">+ Increase</button>
+                    <button @click="adjustScore(team, -parseInt(team.score_adjust))">- Decrease</button>
+                </li>
+            </ul>
+        </div>
+
+        <script>
+            let ws;
+            const app = new Vue({
+                el: '#app',
+                data: {
+                    teams: [],
+                },
+                mounted() {
+                    this.connect();
+                },
+                methods: {
+                    connect() {
+                        ws = new WebSocket('ws://localhost:8080');
+                        ws.onmessage = this.onMessage.bind(this);
+                    },
+
+                    onMessage(event) {
+                        const { type, data } = JSON.parse(event.data);
+                        if (type === 'teams') {
+                            for (const team of data) {
+                                const existing = this.teams.find((t) => t.id === team.id);
+                                if (existing) {
+                                    existing.score = team.score;
+                                } else {
+                                    this.teams.push(team);
+                                }
+                            }
+                        }
+                    },
+
+                    adjustScore(team, amount) {
+                        ws.send(
+                            JSON.stringify({
+                                type: 'teams.score.adjust',
+                                data: {
+                                    id: team.id,
+                                    amount,
+                                },
+                            })
+                        );
+                        team.score_adjust = '';
+                    },
+                },
+            });
+        </script>
+    </body>
+</html>
