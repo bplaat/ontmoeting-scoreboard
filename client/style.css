@@ -1,0 +1,49 @@
+
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    background-color: #000;
+    color: #fff;
+    overflow: hidden;
+
+    font-family: 'Press Start 2P', sans-serif;
+    font-size: 3.5vw;
+    line-height: 1;
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    margin: 0;
+}
+
+.slide {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 10vw;
+    transition: transform 0.5s ease-in-out;
+}
+
+.slide.is-previous {
+    transform: translateX(-100vw) scale(0.5);
+}
+
+.slide.is-next {
+    transform: translateX(100vw) scale(0.5);
+}
+
+.avatar {
+    position: absolute;
+    width: 30vw;
+    right: 5vw;
+    bottom: 5vw;
+}
