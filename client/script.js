@@ -14,7 +14,7 @@ const app = new Vue({
 
     mounted() {
         this.connect();
-        setTimeout(this.nextSlide.bind(this), 5000);
+        setTimeout(this.nextSlide.bind(this), 10000);
     },
 
     methods: {
@@ -44,7 +44,7 @@ const app = new Vue({
                 const team = this.teams[this.currentSlide - 1];
                 team.currentImage = rand(0, team.images.length - 1);
             }
-            setTimeout(this.nextSlide.bind(this), this.currentSlide === 0 ? 5000 : 2000);
+            setTimeout(this.nextSlide.bind(this), this.currentSlide === 0 ? 10000 : 5000);
         },
     },
 });
