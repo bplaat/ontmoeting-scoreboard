@@ -12,6 +12,13 @@ try {
 } catch (error) {
     teams = [
         {
+            id: 0,
+            name: 'Progamer3000',
+            color: '#777777',
+            score: 9999,
+            images: ['progamer1.png'],
+        },
+        {
             id: 1,
             name: 'Mario',
             color: '#D32F2F',
