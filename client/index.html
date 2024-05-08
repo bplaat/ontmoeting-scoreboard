@@ -13,7 +13,7 @@
         <div id="app">
             <div :class="{ 'slide': true, 'is-previous': 0 < currentSlide, 'is-next': 0 > currentSlide }">
                 <p v-for="team in teams" :key="team.id" :style="{ color: team.color }">
-                    {{ team.name }}: {{ team.score.toString().padStart(6, '0') }}
+                    {{ team.name }}: {{ team.score.toString().padStart(4, '0') }}
                 </p>
             </div>
 
@@ -24,7 +24,7 @@
                 :class="{ 'slide': true, 'is-previous': index + 1 < currentSlide, 'is-next': index + 1 > currentSlide }"
             >
                 <h1 style="margin-bottom: 2vw">{{ team.name }}</h1>
-                <h1 style="margin-top: 2vw">{{ team.score.toString().padStart(6, '0') }}</h1>
+                <h1 style="margin-top: 2vw">{{ team.score.toString().padStart(4, '0') }}</h1>
                 <img class="avatar" :src="`images/${team.images[team.currentImage]}`" />
             </div>
         </div>

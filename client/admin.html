@@ -15,7 +15,7 @@
                 <li v-for="team in teams" :key="team.id">
                     <span style="display: inline-block; width: 20vw">
                         <b>{{ team.name }}</b>:
-                        <code>{{ team.score.toString().padStart(6, '0') }}</code>
+                        <code>{{ team.score.toString().padStart(4, '0') }}</code>
                     </span>
 
                     <input type="number" v-model="team.score_adjust" placeholder="Adjust amount" />
